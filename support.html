@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Go345 Support</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <style>
+    :root { color-scheme: light dark; }
+    body { max-width: 800px; margin: 2rem auto; font-family: -apple-system, system-ui, sans-serif; line-height: 1.6; padding: 0 1rem; }
+    h1 { margin-bottom: 0.5rem; }
+    form { display: grid; gap: 0.75rem; }
+    input, textarea, button { font: inherit; padding: 0.6rem 0.7rem; }
+    textarea { resize: vertical; }
+    button { cursor: pointer; }
+    .help { color: #666; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Go345 Support</h1>
+    <p class="help">Fill the box and click Send. Your default mail app will open with the message ready to send.</p>
+
+    <form id="support-form" novalidate>
+      <label for="subject">Subject</label>
+      <input id="subject" name="subject" type="text" placeholder="Support request — Go345" />
+
+      <label for="message">Message</label>
+      <textarea id="message" name="message" rows="8" placeholder="Describe your issue..." required></textarea>
+
+      <button type="submit">Send email</button>
+      <p id="status" role="status" aria-live="polite"></p>
+    </form>
+
+    <noscript>
+      <p>JavaScript is disabled. Email us at
+        <a href="mailto:mertozturk80@hotmail.com?subject=Support%20request%20—%20Go345">mertozturk80@hotmail.com</a>.
+      </p>
+    </noscript>
+  </main>
+
+  <script>
+    (function () {
+      const toEmail = "mertozturk80@hotmail.com";
+      const form = document.getElementById("support-form");
+      const statusEl = document.getElementById("status");
+      const subjectEl = document.getElementById("subject");
+      const messageEl = document.getElementById("message");
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const subject = (subjectEl.value || "Support request — Go345").trim();
+        const body = (messageEl.value || "").trim();
+
+        if (!body) {
+          statusEl.textContent = "Please enter a message before sending.";
+          messageEl.focus();
+          return;
+        }
+
+        const mailto = "mailto:" + encodeURIComponent(toEmail)
+          + "?subject=" + encodeURIComponent(subject)
+          + "&body=" + encodeURIComponent(body);
+
+        statusEl.textContent = "Opening your mail app…";
+        window.location.href = mailto;
+      });
+    })();
+  </script>
+</body>
+</html>
